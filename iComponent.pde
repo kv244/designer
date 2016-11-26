@@ -2,7 +2,7 @@
 
 class iComponent implements iDrawable {
   int x, y; // position
-  int sx, sy; // size
+  int sx, sy; // size - semi major axis, semi minor axis
   String name;
   boolean selected;
   ArrayList<iComponent> connections;

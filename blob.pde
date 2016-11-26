@@ -17,8 +17,9 @@ class blob extends iComponent{
  blob(int x, int y){
    super(x, y);
    type = "BLOB_1.0";
-   this.sx = 30;
-   this.sy = 40;
+   this.sx = 25;
+   this.sy = 15;
+   ellipseMode(RADIUS);
  }
  
  /// TODO fix for circle
@@ -26,9 +27,12 @@ class blob extends iComponent{
  /// EllipseMode should be corner
  /// Also check sizex, y
  @Override
- public boolean isIn(int x, int y){
-   if(((x > this.x) && (x < this.x + this.sy)) &&
-      ((y > this.y) && (y < this.y + this.sx)))
+ public boolean isIn(int px, int py){
+   int calcY = width - this.y;
+
+   if((
+     ((px - this.x)^2 / this.sx ) + ((py - calcY)^2 / this.sy)
+   ) <= 1)
    return true;
    else
      return false;
@@ -51,7 +55,7 @@ class blob extends iComponent{
       strokeWeight(1);
       
     //textSize(8);
-    ellipse(x, y, sy, sx);
+    ellipse(this.x, this.y, this.sx, this.sy);
     //text(this.name, this.x, this.y - this.sy);
     strokeWeight(1); // restore
   }
