@@ -25,6 +25,8 @@ class rectangle extends iComponent{
    type = "RECT_1.0";
    this.sx = 60;
    this.sy = 20;
+   this.properties.put("Pitch", "default");
+   this.properties.put("Length", "default");
  }
  
  ///

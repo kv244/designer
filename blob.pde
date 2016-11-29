@@ -20,6 +20,9 @@ class blob extends iComponent{
    this.sx = 25;
    this.sy = 15;
    ellipseMode(RADIUS);
+   this.properties.put("Frequency", "default");
+   this.properties.put("Duration", "default");
+   this.properties.put("RGB", "default");
  }
  
  /// TODO fix for circle

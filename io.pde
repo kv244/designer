@@ -32,6 +32,14 @@ static class io{
       node.setAttribute("type", com.getType());
       node.setAttribute("x", Integer.toString(com.getX()));
       node.setAttribute("y", Integer.toString(com.getY()));
+      
+      Element nodeProp = doc.createElement("properties");
+      for(Object comP:com.properties.keySet()){
+        Element nodeP = doc.createElement(comP.toString());
+        nodeP.setAttribute("value", com.properties.get(comP).toString());
+        nodeProp.appendChild(nodeP);
+      }
+      node.appendChild(nodeProp);
      
       ArrayList<iComponent> conn = com.getConnections(); 
       

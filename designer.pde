@@ -41,13 +41,15 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.util.*;
 import java.text.*;
+import javax.swing.JOptionPane;
+import javax.swing.JFrame;
 
 /// vars
 ArrayList<iComponent> components;
 iComponent selected;
 boolean connecting;
 iComponent connectFrom, connectTo;
-static final String version = "0.20";
+static final String version = "0.25";
 static final int sizeTextWindow = 70;
 static final String helpMessage = "Designer " + version + 
   " d to drop a square, z to select/connect, drag component with mouse,! to delete selected, " + 
@@ -177,7 +179,7 @@ void mousePressed(){
     
     if(selected != null){
       cprint("Selected " + selected.getName());
-      selected.setSelected(true); // this crashes after delete too
+      selected.setSelected(true); // TODO this crashes after delete too
     }
 }
 
@@ -225,6 +227,30 @@ void mouseMoved(){
 /// 
 void keyPressed(){
   
+  if(key == '+'){ // enter properties
+    if(selected == null){
+      cprint("No component selected to add properties to");
+      return;
+    }
+    int size = selected.properties.size();
+    cprint("Properties for " + selected.getName() + "(" + Integer.toString(size) + ")");
+    for(Object prop:selected.properties.keySet()){
+      String value = JOptionPane.showInputDialog("Enter value for: " + prop.toString());
+      selected.properties.replace(prop, value);
+    }
+  }
+  
+  if(key == '='){ // get properties
+    if(selected == null){
+      cprint("No component selected to view properties");
+      return;
+    }
+    for(Object prop:selected.properties.keySet()){
+      String value = selected.properties.get(prop).toString(); // TODO crash
+      cprint(prop.toString() + " = " + value);
+    }
+  }
+  
   if(key == '~'){ // delete outgoing connections
     if(selected == null){
       cprint("Cannot delete connections, nothing selected");
@@ -238,7 +264,7 @@ void keyPressed(){
     }
   }
   
-  if(key == '@'){
+  if(key == '@'){ // delete incoming
     if(selected == null){
       cprint("Cannot delete connections, nothing selected");
       return;
@@ -261,16 +287,7 @@ void keyPressed(){
   // create rectangle
   // coupling: name has to be unique identifier
   if(key == 'd'){
-    
-   /* 
-   try{
-      iComponent x = (iComponent)Class.forName("blob").getConstructor(String.class).newInstance(40, 50);
-      x.setName("99");
-      cprint("created -- " + x.getName());
-    }catch(Exception e){
-      cprint("error -- "  + e.toString());
-    } */
-    
+
     iComponent c = new rectangle(mouseX, mouseY);
     c.setName(Integer.toString(index++));
     cprint("Adding rect: " + c.getName());
@@ -283,7 +300,7 @@ void keyPressed(){
     return;
   }
   
-  /// TODO is this necessary? simplify
+  /// create blob
   if(key == 'c'){
     iComponent c = new blob(mouseX, mouseY);
     c.setName(Integer.toString(index++));

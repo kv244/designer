@@ -8,11 +8,14 @@ class iComponent implements iDrawable {
   ArrayList<iComponent> connections;
   ArrayList<iComponent> connectingToMe;
   String type;
+  
+  Map properties;
  
   iComponent(int x, int y){
     this.setXY(x, y);
     connections = new ArrayList<iComponent>();
     connectingToMe = new ArrayList<iComponent>();
+    this.properties = new HashMap<String, String>();
   }
   public void setName(String name){ this.name = name; }
   
